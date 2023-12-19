@@ -16,18 +16,19 @@ namespace netpp
 
 	SockAddress::SockAddress(const unsigned short port, SOCK_FAMILY family) :
 		m_method(SETUP_METHOD_INADDR_ANY),
+		m_setup(false),
 		m_family(family),
-		m_port(port),
 		m_host("0.0.0.0"),
-		m_setup(false)
+		m_port(port)
+		
 	{
 	}
 
 	SockAddress::SockAddress(const sockaddr_in& sockaddr, const socklen_t& len) :
 		m_method(SETUP_METHOD_CUSTOM_ADDR_IN),
+		m_setup(false),
 		m_sockaddr_in(sockaddr),
-		m_socklen(len),
-		m_setup(false)
+		m_socklen(len)
 	{
 	}
 
@@ -46,7 +47,6 @@ namespace netpp
 			const int result = inet_pton(this->m_family, this->m_host.c_str(), &this->m_sockaddr_in.sin_addr);
 			if (result != 1)
 			{
-				delete this->m_Error;
 				this->m_Error = new Error(NETPP_ERROR_ADDRESS, errno);
 				return false;
 			}
@@ -63,7 +63,6 @@ namespace netpp
 			char buffer[24];
 			if (inet_ntop(this->m_sockaddr_in.sin_family, &this->m_sockaddr_in.sin_addr, buffer, sizeof buffer) == nullptr)
 			{
-				delete this->m_Error;
 				this->m_Error = new Error(NETPP_ERROR_ADDRESS, errno, "Cannot convert ip address");
 				return false;
 			}

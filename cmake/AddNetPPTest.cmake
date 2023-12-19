@@ -1,0 +1,5 @@
+function(AddNetPPTest testname)
+	add_executable(${testname} ${ARGN})
+	target_link_libraries(${testname} PRIVATE libnetpp)
+	target_include_directories(${testname} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
+endfunction()

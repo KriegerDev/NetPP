@@ -1,3 +1,1 @@
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${NETPP_CMAKE_MODULE_PATH}")
-find_package(NetPP REQUIRED)
 add_subdirectory(UDP)

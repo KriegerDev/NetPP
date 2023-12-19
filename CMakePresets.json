@@ -2,12 +2,30 @@
   "version": 3,
   "configurePresets": [
     {
+      "name": "debug-base",
+      "hidden": true,
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Debug",
+        "NETPP_CUSTOM_INSTALL_DIR": "ON",
+        "NETPP_TESTS_OPT": "ON"
+      }
+    },
+    {
+      "name": "release-base",
+      "cacheVariables": {
+        "CMAKE_BUILD_TYPE": "Release",
+        "NETPP_CUSTOM_INSTALL_DIR": "OFF",
+        "NETPP_TESTS_OPT": "OFF"
+      }
+    },
+
+    {
       "name": "linux-debug",
       "displayName": "Linux Debug",
       "description": "Target the Windows Subsystem for Linux (WSL) or a remote Linux system.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" },
+      "inherits": "debug-base",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -21,7 +39,7 @@
       "description": "Target a remote macOS system.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" },
+      "inherits": "debug-base",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",
@@ -43,25 +61,23 @@
         "type": "equals",
         "lhs": "${hostSystemName}",
         "rhs": "Windows"
+      },
+      "architecture": {
+        "value": "x86",
+        "strategy": "external"
       }
     },
     {
       "name": "win32-debug",
       "displayName": "win32-debug",
       "description": "Target Windows (32-bit) with the Visual Studio development environment. (Debug)",
-      "inherits": "windows-base",
-      "architecture": {
-        "value": "x86",
-        "strategy": "external"
-      },
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+      "inherits": [ "windows-base", "debug-base" ]
     },
     {
       "name": "win32-release",
       "displayName": "win32-release",
       "description": "Target Windows (32-bit) with the Visual Studio development environment. (RelWithDebInfo)",
-      "inherits": "win32-debug",
-      "cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+      "inherits": [ "win32-debug", "release-base" ]
     }
   ]
 }

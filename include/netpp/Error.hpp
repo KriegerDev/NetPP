@@ -1,7 +1,6 @@
 #ifndef __NETPP_ERROR_H
 #define __NETPP_ERROR_H
 #include <string>
-#include <netpp/Log.hpp>
 
 namespace netpp
 {
@@ -34,19 +33,19 @@ namespace netpp
 			return this->m_code;
 		}
 
-		inline std::string getMessage() const
+		inline const char* getMessage() const
 		{
 			return this->m_message;
 		}
 
-		const char* strErrno(int err);
+		static const char* strErrno(int err);
 
 		void Throw() const;
 
 	private:
 		int m_errno;
 		NETPP_ERROR m_code;
-		std::string m_message;
+		const char* m_message;
 	};
 }
 #endif

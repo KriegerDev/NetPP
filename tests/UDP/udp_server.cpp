@@ -1,4 +1,4 @@
-#include <netpp/UDPSocket.hpp>
+#include <netpp/Socket.hpp>
 #include <netpp/SockAddress.hpp>
 #include <iostream>
 
@@ -6,28 +6,53 @@
 
 int main(void)
 {
-	netpp::CSockAddress addr(PORT, netpp::SOCK_FAMILY_INET);
-	netpp::CUDPSocket sock(netpp::SOCK_FAMILY_INET);
+	std::cout << "Initializing udp server...\n";
+
+	netpp::SockAddress addr(PORT, netpp::SOCK_FAMILY_INET);
+	if(!addr.setup())
+	{
+		addr.getError()->Throw();
+		return 1;
+	}
+
+	netpp::Socket sock(netpp::SOCK_FAMILY_INET, netpp::SOCK_TYPE_DGRAM, netpp::SOCK_PROTO_UDP);
+
 	if (!sock.Initialize())
 	{
-		sock.GetError()->Throw();
+		sock.getError()->Throw();
 		return 1;
 	}
 
 	if(!sock.Bind(addr))
 	{
-		sock.GetError()->Throw();
+		sock.getError()->Throw();
 		return 1;
 	}
 
 	std::string buffer;
+	std::cout << "Receiving data...\n";
+	netpp::SockAddress sender;
 
-	if(!sock.Receive(buffer))
+	if(!sock.ReceiveFrom(buffer, sender))
 	{
-		sock.GetError()->Throw();
+		sock.getError()->Throw();
+		return 1;
+	}
+
+	if(!sender.setup())
+	{
+		sender.getError()->Throw();
 		return 1;
 	}
 
 	std::cout << "Buffer: " << buffer << '\n';
+
+	if(!sock.SendTo(sender, "Server has received ur buffer"))
+	{
+		sock.getError()->Throw();
+		return 1;
+	}
+
+	sock.Close();
 	return 0;
 }

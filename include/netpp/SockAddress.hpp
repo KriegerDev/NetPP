@@ -5,6 +5,7 @@
 #include <type_traits>
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 
 namespace netpp
 {
@@ -17,6 +18,7 @@ namespace netpp
         SockAddress();
 
         bool setup();
+
 
         inline SOCK_FAMILY getFamily() const
         {
@@ -38,11 +40,19 @@ namespace netpp
             return this->m_setup;
         }
 
-        inline Error *getError() const
+        inline const Error *getError() const
         {
             return this->m_Error;
         }
 
+        inline std::string str() const
+        {
+            std::stringstream oss;
+            oss << this->m_host << ":" << this->m_port;
+            return std::string(oss.str());
+        }
+
+        
     private:
         enum SETUP_METHOD
         {
@@ -52,7 +62,7 @@ namespace netpp
         };
         SETUP_METHOD m_method;
 
-        Error *m_Error;
+        Error* m_Error;
         bool m_setup;
 
         sockaddr_in m_sockaddr_in;

@@ -1,4 +1,4 @@
-#include <netpp/UDPSocket.hpp>
+#include <netpp/Socket.hpp>
 #include <netpp/SockAddress.hpp>
 #include <iostream>
 
@@ -6,22 +6,38 @@
 
 int main(void)
 {
-	netpp::CSockAddress addr("127.0.0.1", PORT, netpp::SOCK_FAMILY_INET);
-	netpp::CUDPSocket sock(netpp::SOCK_FAMILY_INET);
-	if (!sock.Initialize())
+	netpp::SockAddress addr("127.0.0.1", PORT, netpp::SOCK_FAMILY_INET);
+	if(!addr.setup())
 	{
-		sock.GetError()->Throw();
+		addr.getError()->Throw();
 		return 1;
 	}
 
-	std::string buffer = "Hello from client";
+	netpp::Socket sock(netpp::SOCK_FAMILY_INET, netpp::SOCK_TYPE_DGRAM, netpp::SOCK_PROTO_UDP);
 
-	if(!sock.SendTo(addr, buffer.c_str()))
+	if (!sock.Initialize())
 	{
-		sock.GetError()->Throw();
+		sock.getError()->Throw();
+		return 1;
+	}
+
+	const char* buffer = "Hello from client";
+
+	if(!sock.SendTo(addr, buffer))
+	{
+		sock.getError()->Throw();
 		return 1;
 	}
 
 	std::cout << "Sended Buffer: " << buffer << '\n';
+
+	const bool result = sock.ReceiveFrom([](const std::string& buffer, const netpp::SockAddress& address)
+	{
+		std::cout << "Received from: " << address.str() << '\n';
+		std::cout << "Content: " << buffer << '\n';
+	});
+
+	sock.Close();
+
 	return 0;
 }

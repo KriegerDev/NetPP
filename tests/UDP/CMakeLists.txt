@@ -1,13 +1,6 @@
-add_executable(udp_server
-	udp_server.cpp
-)
+include(AddNetPPTest)
+AddNetPPTest(udp_server udp_server.cpp)
+install(TARGETS udp_server DESTINATION bin)
 
-target_link_libraries(udp_server
-	${NetPP_LIBRARY}
-	ws2_32
-)
-
-target_include_directories(udp_server
-	PRIVATE
-		${NetPP_INCLUDE_DIR}
-)
+AddNetPPTest(udp_client udp_client.cpp)
+install(TARGETS udp_client DESTINATION bin)

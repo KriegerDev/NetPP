@@ -4,6 +4,21 @@ project(NetPP)
 set(NETPP_INCLUDE_DIRS ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(NETPP_CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+list(APPEND CMAKE_MODULE_PATH ${NETPP_CMAKE_MODULE_PATH})
+
+if(NOT CMAKE_BUILD_TYPE)
+    set(CMAKE_BUILD_TYPE Debug)
+endif()
+
+if(CMAKE_BUILD_TYPE MATCHES Debug)
+    message("Compiling with Debug option")
+endif()
+
+# Exemplo de configuração para compilação em modo Release
+if(CMAKE_BUILD_TYPE MATCHES Release)
+    message("Compiling in Release mode")
+endif()
+
 set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
@@ -19,25 +34,21 @@ else()
     message(FATAL_ERROR "Unsupported platform")
 endif()
 
+option(NETPP_CUSTOM_INSTALL_DIR "Custom install dir" OFF)
+option(NETPP_TESTS_OPT "Build tests" OFF)
+
+
+if(NETPP_CUSTOM_INSTALL_DIR)
+	set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/install)
+	message(STATUS "Custom install dir enabled")
+endif()
+
 add_subdirectory(NetPP)
 
-option(NETPP_TESTS_OPT "Build tests" OFF)
 if(NETPP_TESTS_OPT)
     add_subdirectory(tests)
     message(STATUS "Tests enabled")
 endif()
-
-install(DIRECTORY ${NETPP_INCLUDE_DIRS}/netpp DESTINATION include)
-install(TARGETS libnetpp
-	EXPORT NetPPTargets DESTINATION cmake
-    LIBRARY DESTINATION lib
-    ARCHIVE DESTINATION lib
-    PUBLIC_HEADER DESTINATION include
-)
-install(EXPORT NetPPTargets
-  FILE NetPPTargets.cmake
-  DESTINATION cmake/NetPP
-)
 
 include(CMakePackageConfigHelpers)
 
