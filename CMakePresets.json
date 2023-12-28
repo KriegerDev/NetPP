@@ -12,6 +12,7 @@
     },
     {
       "name": "release-base",
+      "hidden": true,
       "cacheVariables": {
         "CMAKE_BUILD_TYPE": "Release",
         "NETPP_CUSTOM_INSTALL_DIR": "OFF",
@@ -21,10 +22,28 @@
     {
       "name": "linux-debug",
       "displayName": "Linux Debug",
-      "description": "Target the Windows Subsystem for Linux (WSL) or a remote Linux system.",
+      "description": "Linux Debug",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/${presetName}",
       "inherits": "debug-base",
+      "condition": {
+        "type": "equals",
+        "lhs": "${hostSystemName}",
+        "rhs": "Linux"
+      },
+      "vendor": {
+        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+        }
+      }
+    },
+    {
+      "name": "linux-release",
+      "displayName": "Linux Release",
+      "description": "Linux Release",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/build/${presetName}",
+      "inherits": "release-base",
       "condition": {
         "type": "equals",
         "lhs": "${hostSystemName}",

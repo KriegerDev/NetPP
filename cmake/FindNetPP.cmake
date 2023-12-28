@@ -1,6 +1,12 @@
+if(WIN32)
+    set(NETPP_ROOT_DIR $ENV{ProgramFiles\(x86\)}\NetPP)
+else()
+    set(NETPP_ROOT_DIR "/usr")
+endif()
+
 find_path(NetPP_INCLUDE_DIR
 	NAMES netpp/Socket.hpp
-    PATHS $ENV{ProgramFiles\(x86\)}/NetPP/include
+    PATHS ${NETPP_ROOT_DIR}/include
     PATH_SUFFIXES netpp
 )
 
@@ -10,7 +16,7 @@ endif()
 
 find_library(NetPP_LIBRARY
     NAMES libnetpp.a libnetpp.lib
-    PATHS $ENV{ProgramFiles\(x86\)}/NetPP/lib
+    PATHS ${NETPP_ROOT_DIR}/lib
 )
 
 if(NetPP_LIBRARY)

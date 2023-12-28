@@ -37,6 +37,13 @@ endif()
 option(NETPP_CUSTOM_INSTALL_DIR "Custom install dir" OFF)
 option(NETPP_TESTS_OPT "Build tests" OFF)
 
+if(NETPP_PLATFORM_WINDOWS)
+    set(CMAKE_INSTALL_PREFIX "$ENV{ProgramFiles\(x86\)}\NetPP")
+endif()
+
+if(NETPP_PLATFORM_LINUX)
+    set(CMAKE_INSTALL_PREFIX "/usr")
+endif()
 
 if(NETPP_CUSTOM_INSTALL_DIR)
 	set(CMAKE_INSTALL_PREFIX ${CMAKE_CURRENT_SOURCE_DIR}/install)
