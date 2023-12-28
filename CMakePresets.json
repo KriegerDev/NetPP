@@ -18,7 +18,6 @@
         "NETPP_TESTS_OPT": "OFF"
       }
     },
-
     {
       "name": "linux-debug",
       "displayName": "Linux Debug",
@@ -31,7 +30,11 @@
         "lhs": "${hostSystemName}",
         "rhs": "Linux"
       },
-      "vendor": { "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": { "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}" } }
+      "vendor": {
+        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+        }
+      }
     },
     {
       "name": "macos-debug",
@@ -45,7 +48,11 @@
         "lhs": "${hostSystemName}",
         "rhs": "Darwin"
       },
-      "vendor": { "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": { "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}" } }
+      "vendor": {
+        "microsoft.com/VisualStudioRemoteSettings/CMake/1.0": {
+          "sourceDir": "$env{HOME}/.vs/$ms{projectDirName}"
+        }
+      }
     },
     {
       "name": "windows-base",
@@ -71,13 +78,19 @@
       "name": "win32-debug",
       "displayName": "win32-debug",
       "description": "Target Windows (32-bit) with the Visual Studio development environment. (Debug)",
-      "inherits": [ "windows-base", "debug-base" ]
+      "inherits": [
+        "windows-base",
+        "debug-base"
+      ]
     },
     {
       "name": "win32-release",
       "displayName": "win32-release",
       "description": "Target Windows (32-bit) with the Visual Studio development environment. (RelWithDebInfo)",
-      "inherits": [ "win32-debug", "release-base" ]
+      "inherits": [
+        "windows-base",
+        "release-base"
+      ]
     }
   ]
 }

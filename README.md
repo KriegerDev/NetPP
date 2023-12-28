@@ -14,3 +14,14 @@ I'll be happy to help you with any issue you may have, just open an issue and I'
 
 ## Status
 This project is under development, so it may have some bugs and missing features.
+
+## Building from source and installing.
+```bash 
+# netpp root dir...
+cmake --preset win32-release
+cd build && cd win32-release
+cmake --build . --config Release
+cmake --install .
+```
+After these steps, you can use the 
+[FindNetPP](cmake/FindNetPP.cmake) for use NetPP in your project.
