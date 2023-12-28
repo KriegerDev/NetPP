@@ -1,5 +1,5 @@
 if(WIN32)
-    set(NETPP_ROOT_DIR $ENV{ProgramFiles\(x86\)}\NetPP)
+    set(NETPP_ROOT_DIR $ENV{ProgramFiles\(x86\)}/NetPP)
 else()
     set(NETPP_ROOT_DIR "/usr")
 endif()
