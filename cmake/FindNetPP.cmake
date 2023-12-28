@@ -1,6 +1,6 @@
 find_path(NetPP_INCLUDE_DIR
 	NAMES netpp/Socket.hpp
-    PATHS ${CMAKE_INSTALL_PREFIX}/include
+    PATHS $ENV{ProgramFiles\(x86\)}/NetPP/include
     PATH_SUFFIXES netpp
 )
 
@@ -10,7 +10,7 @@ endif()
 
 find_library(NetPP_LIBRARY
     NAMES libnetpp.a libnetpp.lib
-    PATHS ${CMAKE_INSTALL_PREFIX}/lib
+    PATHS $ENV{ProgramFiles\(x86\)}/NetPP/lib
 )
 
 if(NetPP_LIBRARY)
